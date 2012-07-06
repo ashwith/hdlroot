@@ -12,7 +12,8 @@ Directory Structure
     |hdlroot---|  Root Directory
                |lib|  Contains HDL modules (IP) that would be used in multiple projects.
                |buffers-------|  Buffers/Memory models.
-               |interfaceLogic|  Logic.
+               |interfaceLogic|  Hardware Interface Logic.
+               |clkgen--------|  Clock generators and dividers.
                |modules-------|  IP modules.
                               |<module name>| Contains the IP <module name>
                                             |design| Contains the design files
