@@ -9,6 +9,7 @@ Directory Structure
 ===================
 
 hdlroot----|  Root Directory
+
            |lib|  Contains HDL modules (IP) that would be used in multiple projects.
                |buffers-------|  Buffers/Memory models.
                |interfaceLogic|  Logic.
