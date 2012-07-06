@@ -3,6 +3,7 @@
 module uart_rx(
   input                       CLK,
   input                       RST,
+  input                       EN,
   input                       RX,
   input                       ISFULL,
   output                      WRITE,
@@ -34,7 +35,7 @@ module uart_rx(
         IDLE: begin
           write_reg <= 1'b0;
           bit_cnt <= 3'h0;
-          if(RX == 1'b0) begin
+          if((EN == 1'b1) && (RX == 1'b0) && (ISFULL == 1'b0)) begin
             next_state <= BIT_RX;
           end
           else begin
@@ -50,7 +51,7 @@ module uart_rx(
             next_state <= STOP;
           end
           else begin
-            bit_cnt <= bit_cnt + 1;
+            bit_cnt <= bit_cnt + 1'b1;
           end
         end
         STOP: begin

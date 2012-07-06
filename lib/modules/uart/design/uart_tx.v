@@ -3,6 +3,7 @@
 module uart_tx(
   input                       CLK,
   input                       RST,
+  input                       EN,
   input   [DATAWIDTH - 1 : 0] DATA,
   input                       DATARDY,
   output                      READ,
@@ -32,7 +33,7 @@ module uart_tx(
       case(curr_state)
         IDLE: begin
           tx_reg <= 1'b1;
-          if(DATARDY == 1'b1) begin
+          if((EN == 1'b1) && (DATARDY == 1'b1)) begin
             read_reg <= 1;
             next_state <= START;
           end
@@ -58,7 +59,7 @@ module uart_tx(
           end
         end
         STOP: begin
-          tx_reg = 1'b1;
+          tx_reg <= 1'b1;
           if(DATARDY == 1'b1) begin
             read_reg <= 1'b1;
             next_state <= START;
