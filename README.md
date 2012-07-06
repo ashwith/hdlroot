@@ -9,14 +9,14 @@ Directory Structure
 ===================
 
 
-  hdlroot----|  Root Directory
-             |lib|  Contains HDL modules (IP) that would be used in multiple projects.
-                 |buffers-------|  Buffers/Memory models.
-                 |interfaceLogic|  Logic.
-                 |modules-------|  IP modules.
-                                |<module name>| Contains the IP <module name>
-                                              |design| Contains the design files
-                                              |test--| Contains the testbench
+    |hdlroot---|  Root Directory
+               |lib|  Contains HDL modules (IP) that would be used in multiple projects.
+               |buffers-------|  Buffers/Memory models.
+               |interfaceLogic|  Logic.
+               |modules-------|  IP modules.
+                              |<module name>| Contains the IP <module name>
+                                            |design| Contains the design files
+                                            |test--| Contains the testbench
                     
 
 IP:
