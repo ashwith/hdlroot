@@ -18,10 +18,20 @@ module uart_ctrl(
     );
     
     wire uart_clk;
+    
     wire uart_tx_read;
-    wire uart_tx_data;
-    reg uart_tx_empty;
+    wire [7:0] uart_tx_data;
     wire uart_tx_datardy;
+    wire uart_tx_empty;
+
+    wire uart_rx_write;
+    wire [7:0] uart_rx_data;
+    wire uart_rx_full;
+    wire uart_rx_empty;
+    
+    wire tx_en;
+    wire rx_en;
+    
     
     clk_div clk_div_inst(
       .CLKIN(CLK),
@@ -29,9 +39,6 @@ module uart_ctrl(
       .BAUD(BAUD),
       .CLKOUT(uart_clk)
     );
-
-    assign TX = uart_clk;
-    
    
     circular_buff buff_tx(
       .CLK(CLK),
@@ -56,9 +63,11 @@ module uart_ctrl(
       .ISEMPTY(uart_rx_empty)
     );
     
+    assign DATARDY = ~uart_rx_empty;
     uart_tx tx(
       .CLK(uart_clk),
       .RST(RST),
+      .EN(tx_en),
       .DATA(uart_tx_data),
       .DATARDY(uart_tx_datardy),
       .READ(uart_tx_read),
@@ -68,10 +77,13 @@ module uart_ctrl(
     uart_rx rx(
       .CLK(uart_clk),
       .RST(RST),
+      .EN(rx_en),
       .RX(RX),
       .ISFULL(uart_rx_full),
       .WRITE(uart_rx_write),
       .DATA(uart_rx_data)
     );
-
+    
+    assign tx_en = EN ? TXEN ? 1'b1 : 1'b0 : 1'b0;
+    assign rx_en = EN ? RXEN ? 1'b1 : 1'b0 : 1'b0;
 endmodule
