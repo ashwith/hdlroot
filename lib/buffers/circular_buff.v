@@ -21,16 +21,14 @@ module circular_buff(
   reg [PTRSIZE - 1 : 0] wrptr;
   reg [PTRSIZE - 1 : 0] rdptr;
 
-  wire [PTRSIZE - 1 : 0] wraddr;
-  wire [PTRSIZE - 1 : 0] rdaddr;
   reg wren;
-
+    
   memory mem(
               .CLK(CLK),
               .WREN(wren),
-              .WRADDR(wraddr),
+              .WRADDR(wrptr),
               .WRDATA(WRDATA),
-              .RDADDR(rdaddr),
+              .RDADDR(rdptr),
               .RDDATA(RDDATA)
             );
 
@@ -42,12 +40,12 @@ module circular_buff(
       wren <= 0;
     end
     else begin
-      case({READ,WRITE})
-        01: begin
+      case({READ, WRITE})
+        'b01: begin
           if(buff_count < BUFFSIZE) begin
             wren <= 1;
-            wrptr <= wrptr + 1;
-            buff_count <= buff_count + 1;
+            wrptr <= wrptr + 1'b1;
+            buff_count <= buff_count + 1'b1;
           end
           else begin
             wren <= 0;
@@ -55,33 +53,33 @@ module circular_buff(
             buff_count <= buff_count;
           end
         end
-        10: begin
+        'b10: begin
           wren <= 0;
           if(buff_count > 0) begin
-            rdptr <= rdptr + 1;
-            buff_count <= buff_count - 1;
+            rdptr <= rdptr + 1'b1;
+            buff_count <= buff_count - 1'b1;
           end
           else begin
             rdptr <= rdptr;
             buff_count <= buff_count;
           end
         end
-        11: begin
+        'b11: begin
           if((buff_count > 0) && (buff_count < BUFFSIZE)) begin
             wren <= 1;
-            wrptr <= wrptr + 1;
-            rdptr <= rdptr + 1;
+            wrptr <= wrptr + 1'b1;
+            rdptr <= rdptr + 1'b1;
             buff_count <= buff_count;
           end
           else if(buff_count == 0) begin
             wren <= 1;
-            wrptr <= wrptr + 1;
-            buff_count <= buff_count + 1;
+            wrptr <= wrptr + 1'b1;
+            buff_count <= buff_count + 1'b1;
           end
           else if(buff_count == BUFFSIZE) begin
             wren <= 1;
-            wrptr <= wrptr + 1;
-            rdptr <= rdptr + 1;
+            wrptr <= wrptr + 1'b1;
+            rdptr <= rdptr + 1'b1;
             buff_count <= buff_count;
           end
           else begin
