@@ -18,7 +18,7 @@ module test_sim();
 
   parameter PERIOD = 5;  
   
-	uart_ctrl uart(
+  uart_ctrl uart(
                   .CLK(clk),
                   .RST(rst),
                   .EN(1'b1),
